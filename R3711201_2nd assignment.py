@@ -17,35 +17,36 @@ for line in lines:
             raw_data.append(instance)
 
 
-
-
-
 def equalwidth(Class):
     
     interval_width = (max(Class) - min(Class)) / 10
     # 計算各個splitting points包含max, min
     Splitting_point = [min(Class) + i * interval_width for i in range(11)]
-    discretized_data = []
+    discretized_class = []
 
     # Perform equal width discretization
     for value in Class:
         for i in range(10):
-            # if value == max(Class):
-            #      discretized_data.append(10)
             if Splitting_point[i] <= value < Splitting_point[i + 1]:
-                discretized_data.append(i + 1)
+                discretized_class.append(i + 1)
+            if value == max(Class):
+                discretized_class.append(10)
                 break
-
-    return discretized_data
+    return discretized_class
 
 # 创建一个字典来存储每个属性的分箱结果
-discretized_data = {}
+discretized_data = []
 
 # 循环处理每个属性
-for class_value in Attributes:  # 跳过第一个和最后一个列名
-    values = [float(row[class_value]) for row in raw_data]
-    discretized_values = equalwidth(values)
-    discretized_data[class_value] = discretized_values
+for class_selected in Attributes:  # 跳过第一个和最后一个列名
+    valuesTodis = [float(row[class_selected]) for row in raw_data]
+    discretized_values = equalwidth(valuesTodis)
+    discretized_attribute = dict(zip(Attributes,discretized_values))     #行跟列相反待調整
+    discretized_data.append(discretized_attribute)
+    # discretized_data[class_selected] = discretized_values
+
+    # instance = dict(zip(Attributes, row[1:]))
+    #         raw_data.append(instance)
 
 # 打印每个属性的宽度分箱结果
 for attribute, discretized_values in discretized_data.items():
