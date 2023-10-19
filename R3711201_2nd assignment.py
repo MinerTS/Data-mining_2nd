@@ -34,32 +34,28 @@ def equalwidth(Class):
                 break
     return discretized_class
 
+
 # 创建一个字典来存储每个属性的分箱结果
+discretized_row = []
 discretized_data = []
 
 # 循环处理每个属性
 for class_selected in Attributes:  # 跳过第一个和最后一个列名
     valuesTodis = [float(row[class_selected]) for row in raw_data]
     discretized_values = equalwidth(valuesTodis)
-    discretized_attribute = dict(zip(Attributes,discretized_values))     #行跟列相反待調整
-    discretized_data.append(discretized_attribute)
-    # discretized_data[class_selected] = discretized_values
+    discretized_str = []
+    for value in discretized_values:
+        str_value = str(value)
+        discretized_str.append(str_value)
 
-    # instance = dict(zip(Attributes, row[1:]))
-    #         raw_data.append(instance)
+    discretized_row.append(discretized_str)
 
-# 打印每个属性的宽度分箱结果
-for attribute, discretized_values in discretized_data.items():
-    print(f"{attribute} 的等宽分箱结果：{discretized_values}")
+for values in zip(*discretized_row):
+    discretized_dict = {key: value for key, value in zip(Attributes, values)}
+    discretized_data.append(discretized_dict)
 
+# for i in discretized_data:
+#     for j in range(Attributes):
+#         discretized_data[i][j] = str(discretized_data[i][j])
 
-# while True:
-#     class_to_dis = []
-#     for i in range(10)
-#     class_values = [row["RI"] for row in raw_data]
-#     for sample_class in raw_data: #增強for循環，逐步抽出raw_data的每個比資料，全部抽完結束回圈
-#                     # select_raw_data = sample[feature]
-#         class_to_dis.append(sample_class[1] for sample_class in raw_data.items()) #逐步把每比資料對應的特徵值加到all_features
-#                 # candidate_features.append(all_feature) #把all_features的資料加到condidate_features
-
-# class_values = [prob[1] for prob in probs.items()] # 抽出字典value到list中，[0]是key [1]是value
+print(discretized_data)
