@@ -191,35 +191,23 @@ def Goodness(class1,selected_f):   #只輸入一個變數，把遠本
 #**************************
 #**************************
 #**************************
-fwd_selected_features = []
-fwd_best_goodness = 0.0
-while True:  # while迴圈須設定statement，for迴圈跑完全部資料後自動結束
-    feature_to_add = None
-    best_feature_goodness = 0.0
+def EntropyBased(valuesTodis, class_selected):
 
-    for feature in Attributes:
-        all_value = []
-        for value in raw_data:
-            all_value.append(value[feature]) #逐步把每比資料對應的特徵值加到all_features
-        
-        Sorted_conut = 1
-        Sorted_value = sorted(all_value)
-        Splitting_value = [Sorted_value[0]]
-        Splitting_point = [0]
-        better_gain = 0
-        for j in range(Sorted_conut):
-            if j == 0:
-                for i in range(len(Sorted_value)):
-                    S1 = Sorted_value[:i]
-                    S2 = Sorted_value[i:]
-                    X = (len(S1)/len(Sorted_value)) * H_entropy(S1)
-                    Y = (len(S2)/len(Sorted_value)) * H_entropy(S2)
-                    Gain = H_entropy(Sorted_value) - (X + Y)
-                    if Gain > better_gain:
-                        better_gain = Gain
-                        Splitting_value.append(Sorted_value[i])
-                        Splitting_point.append(i)
-                        Sorted_conut += 1
+    Sorted_conut = 1
+    Sorted_value = sorted(valuesTodis)
+    Splitting_value = [Sorted_value[0]]
+    better_gain = 0
+
+    for i in range(len(Sorted_value)):
+        S1 = Sorted_value[:i]
+        S2 = Sorted_value[i:]
+        X = (len(S1)/len(Sorted_value)) * H_entropy(S1)
+        Y = (len(S2)/len(Sorted_value)) * H_entropy(S2)
+        Gain = H_entropy(Sorted_value) - (X + Y)
+        if Gain > better_gain:
+            better_gain = Gain
+            Splitting_value.append(Sorted_value[i])
+            Sorted_conut += 1
                 
 
             # else:
